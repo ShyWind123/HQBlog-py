@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sparkAPI import generateConclusion
+from sparkAPI import generateConclusion,generateTags
 
 app = FastAPI()
 
@@ -14,12 +14,24 @@ app.add_middleware(
 
 #前端中生成数据请求响应
 @app.post('/blogs/generate_conclusion')
-async def generate_and_send_data(blogContent: dict):
+async def generateConclusionData(blogContent: dict):
     try:
         res = generateConclusion(blogContent["content"])
         return {
             "message": "Successfully generated conclusion",
             "conclusion": res
+        }
+    except Exception as e:
+        return {"error": f"Failed to generate conclusion: {str(e)}"}
+    
+#前端中生成数据请求响应
+@app.post('/blogs/generate_tags')
+async def generateTagsData(blogContent: dict):
+    try:
+        res = generateTags(blogContent["content"])
+        return {
+            "message": "Successfully generated tags",
+            "tags": res
         }
     except Exception as e:
         return {"error": f"Failed to generate conclusion: {str(e)}"}

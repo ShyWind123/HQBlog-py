@@ -35,3 +35,27 @@ def generateConclusion(content):
     res = a.generations[0][0].text
     print(res)
     return res
+
+def generateTags(content):
+    spark = ChatSparkLLM(
+        spark_api_url=SPARKAI_URL,
+        spark_app_id=SPARKAI_APP_ID,
+        spark_api_key=SPARKAI_API_KEY,
+        spark_api_secret=SPARKAI_API_SECRET,
+        spark_llm_domain=SPARKAI_DOMAIN,
+        streaming=False,
+    )
+    messages = [ChatMessage(
+        role="system",
+        content="根据我给出的文章给出若干个关键词, 作为这篇文章的标签。给出最能体现文章内容的关键词。只要词语, 不要句子。最多给出8个词语。"
+    ),
+    ChatMessage(
+        role="user",
+        content=content
+    )]
+    handler = ChunkPrintHandler()
+    a = spark.generate([messages], callbacks=[handler])
+    res = a.generations[0][0].text
+    print(a)
+    print(res)
+    return res
