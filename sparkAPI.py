@@ -24,7 +24,8 @@ def generateConclusion(content):
     )
     messages = [ChatMessage(
         role="system",
-        content="根据我给出的文章进行总结，只给出总结的内容，不要有废话，生成总结的字数大约在原文章字数的10%左右。每次独立生成。"
+        # content="根据我给出的文章进行总结，只给出总结的内容，不要有废话，生成总结的字数大约在原文章字数的10%左右。每次独立生成。"
+        content="根据我给出的文章给出若干个关键词, 作为这篇文章的标签。给出最能体现文章内容的关键词。只要词语, 不要句子。最多给出8个词语。"
     ),
     ChatMessage(
         role="user",
